@@ -8,11 +8,9 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class UserExceptionHandler {
 
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Exception> handleGlobalException(Exception e, WebRequest request){
-        System.out.println("Running");
-        return ResponseEntity.status(400).body(e);
-    }
-
-
+  @ExceptionHandler(value = {Exception.class})
+  public ResponseEntity<Exception> handleGlobalException(Exception e, WebRequest request) {
+    System.out.println("Running");
+    return ResponseEntity.status(400).body(e);
+  }
 }
