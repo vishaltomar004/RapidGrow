@@ -1,8 +1,7 @@
 package com.RapidGrow.repositories;
 
-import com.RapidGrow.entities.User;
+import com.RapidGrow.entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepo extends JpaRepository<User, Long> {
-
+public interface PostRepo extends JpaRepository<Post,Long> {
 }

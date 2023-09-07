@@ -1,8 +1,7 @@
 package com.RapidGrow.repositories;
 
-import com.RapidGrow.entities.User;
+import com.RapidGrow.entities.Bid;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepo extends JpaRepository<User, Long> {
-
+public interface BidRepo extends JpaRepository<Bid,Long> {
 }
