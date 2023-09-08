@@ -1,6 +1,5 @@
 package com.RapidGrow.payloads;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PostDto {
 
-    private long id;
+    private long postId;
 
     private String videoUrl;
     private String imageUrl;

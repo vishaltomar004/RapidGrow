@@ -13,20 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 public class UserController {
-//    @Autowired
-//    private UserRepo userRepo;
-
-    // create user
-//    @PostMapping("/")
-//    public ResponseEntity<User> create(@RequestBody User user) {
-//        try {
-//            User createdUser = this.userRepo.save(user);
-//            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
-
     @Autowired
     private UserService userService;
 
@@ -62,6 +48,12 @@ public class UserController {
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable long userId) {
         return ResponseEntity.ok(this.userService.updateUser(userDto, userId));
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<UserDto> getUserByPostId(@PathVariable Long postId) {
+        UserDto userDto = this.userService.getUserByPostId(postId);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
 

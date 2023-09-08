@@ -1,5 +1,6 @@
 package com.RapidGrow.serviceImpl;
 
+import com.RapidGrow.entities.Post;
 import com.RapidGrow.entities.User;
 import com.RapidGrow.exceptions.ResourceNotFoundException;
 import com.RapidGrow.payloads.UserDto;
@@ -62,5 +63,16 @@ public class UserServiceImpl implements UserService {
 
         return this.modelMapper.map(user, UserDto.class);
     }
+
+    @Override
+    public UserDto getUserByPostId(Long postId) {
+        Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+        long userId = post.getUser().getId();
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User Id", userId));
+
+        return this.modelMapper.map(user, UserDto.class);
+
+    }
+
 
 }
