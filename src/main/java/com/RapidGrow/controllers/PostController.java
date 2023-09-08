@@ -51,5 +51,17 @@ public class PostController {
         return new ResponseEntity<ApiResponse>(new ApiResponse("successfully updated",true),HttpStatus.OK);
     }
 
+       @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Long userId){
+        List<PostDto> postDtos=this.postService.getPostByUser(userId);
+        return new ResponseEntity<>(postDtos,HttpStatus.OK);
+       }
+
+       @PostMapping("create/user/{userId}")
+    public ResponseEntity<PostDto> createPostByUser(@RequestBody PostDto postDto, @PathVariable Long userId){
+        PostDto createPost=this.postService.createPostByUser(postDto,userId);
+        return new ResponseEntity<>(createPost,HttpStatus.CREATED);
+       }
+
 
 }

@@ -63,4 +63,6 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable long userId) {
         return ResponseEntity.ok(this.userService.updateUser(userDto, userId));
     }
+
+
 }

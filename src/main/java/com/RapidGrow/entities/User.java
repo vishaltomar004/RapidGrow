@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +22,8 @@ public class User extends BaseEntity{
     private Date creationDate;
     private Constants.USER_TYPE type;
     private String password;
+    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
+    private List<Post> posts= new ArrayList<>();
     public Date getCreationDate() {
         return new Date();
     }

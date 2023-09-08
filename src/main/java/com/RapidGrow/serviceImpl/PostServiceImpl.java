@@ -1,9 +1,11 @@
 package com.RapidGrow.serviceImpl;
 
 import com.RapidGrow.entities.Post;
+import com.RapidGrow.entities.User;
 import com.RapidGrow.exceptions.ResourceNotFoundException;
 import com.RapidGrow.payloads.PostDto;
 import com.RapidGrow.repositories.PostRepo;
+import com.RapidGrow.repositories.UserRepo;
 import com.RapidGrow.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
     @Autowired
     private PostRepo postRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -59,8 +64,26 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getAllPosts() {
 
-        List<Post> posts=this.postRepo.findAll();
-        List<PostDto> postDtos= posts.stream().map(post -> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
+        List<Post> posts = this.postRepo.findAll();
+        List<PostDto> postDtos = posts.stream().map(post -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtos;
+    }
+
+    @Override
+    public PostDto createPostByUser(PostDto postDto, Long userId) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "user Id", userId));
+        Post post = this.modelMapper.map(postDto, Post.class);
+        post.setUser(user);
+        post.setId(postDto.getId());
+        Post newPost = this.postRepo.save(post);
+        return this.modelMapper.map(newPost, PostDto.class);
+    }
+
+    @Override
+    public List<PostDto> getPostByUser(Long userId) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User id", userId));
+        List<Post> post = this.postRepo.findByUser(user);
+        List<PostDto> postDtos = post.stream().map(pd -> this.modelMapper.map(pd, PostDto.class)).collect(Collectors.toList());
         return postDtos;
     }
 }

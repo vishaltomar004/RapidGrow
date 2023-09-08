@@ -12,4 +12,5 @@ public interface UserService {
 
     UserDto deleteUser(Long userdId);
     UserDto  getUserById(Long userId);
+//    UserDto getUserByPostId(Long postId);
 }
