@@ -12,17 +12,19 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class UserDto {
-
+    @NotNull
     private long userId;
-
+    @NotNull
     private String username;
-
+    @NotNull
     private String name;
-
+    @Email
     @Column(unique = true)
     private String email;
+    @NotNull
     @Column(unique = true)
     private String mobile;
+    @NotNull
     private Constants.USER_TYPE type;
     @NotNull
     private String password;
