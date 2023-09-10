@@ -2,6 +2,8 @@ package com.RapidGrow.payloads;
 
 import com.RapidGrow.common.Constants;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +14,17 @@ import lombok.Setter;
 public class UserDto {
 
     private long userId;
+
     private String username;
+
     private String name;
+
     @Column(unique = true)
     private String email;
     @Column(unique = true)
     private String mobile;
-    //    private Date creationDate;
-    private boolean isDeleted;
     private Constants.USER_TYPE type;
+    @NotNull
     private String password;
 
 }

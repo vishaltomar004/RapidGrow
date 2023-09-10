@@ -37,7 +37,7 @@ public class BidController {
     @DeleteMapping("/delete/{bid}")
     public ResponseEntity<ApiResponse> deleteBid(@PathVariable long bid) {
         this.bidService.deleteBid(bid);
-        return new ResponseEntity<>(new ApiResponse("Bid with id" + bid + " delted", true), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse("Bid with id " + bid + " delted", true), HttpStatus.OK);
     }
 
     @PutMapping("update/{bid}")
@@ -47,8 +47,18 @@ public class BidController {
     }
 
     @PostMapping("create/user/{userId}/post/{postId}")
-    public ResponseEntity<BidDto> creteBidByUserAndPost(@RequestBody BidDto bidDto, @PathVariable long userId, @PathVariable long postId) {
+    public ResponseEntity<ApiResponse> creteBidByUserAndPost(@RequestBody BidDto bidDto, @PathVariable long userId, @PathVariable long postId) {
+
         BidDto bid = this.bidService.createBidByUserAndPost(bidDto, userId, postId);
-        return new ResponseEntity<>(bid, HttpStatus.CREATED);
+        if (bid == null) {
+            return new ResponseEntity<>(new ApiResponse("CAN PUT ONLY ONE BID ON ONE POST", false), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ApiResponse("Bid Created Successfully", true), HttpStatus.CREATED);
+    }
+
+    @GetMapping("all/bids/post/{postId}")
+    public ResponseEntity<List<BidDto>> getAllBidsOfPost(@PathVariable long postId) {
+        List<BidDto> bidDtos = this.bidService.getAllBidOfPostById(postId);
+        return new ResponseEntity<>(bidDtos, HttpStatus.OK);
     }
 }

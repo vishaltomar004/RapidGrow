@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UserDto userDto, Long userId) {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
         user.setName(userDto.getName());
-        user.setMobile(user.getMobile());
-        user.setEmail(user.getEmail());
+        user.setMobile(userDto.getMobile());
+        user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         User updatedUser = this.userRepo.save(user);
         return this.modelMapper.map(updatedUser, UserDto.class);
@@ -53,7 +53,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto deleteUser(Long userId) {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
-        this.userRepo.delete(user);
+        user.setDeleted(true);
+        this.userRepo.save(user);
         return this.modelMapper.map(user, UserDto.class);
     }
 

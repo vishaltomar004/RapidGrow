@@ -18,4 +18,6 @@ public interface BidService {
 
     BidDto createBidByUserAndPost(BidDto bidDto, long userId, long postId);
 
+    List<BidDto> getAllBidOfPostById(long postId);
+
 }

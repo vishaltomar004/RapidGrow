@@ -27,50 +27,70 @@ public class BidServiceImpl implements BidService {
     private UserRepo userRepo;
     @Autowired
     private PostRepo postRepo;
+
     @Override
     public BidDto createBid(BidDto bidDto) {
-        Bid bid=this.modelMapper.map(bidDto,Bid.class);
-        Bid  savesBid=this.bidRepo.save(bid);
-        return this.modelMapper.map(savesBid,BidDto.class);
+        Bid bid = this.modelMapper.map(bidDto, Bid.class);
+        Bid savesBid = this.bidRepo.save(bid);
+        return this.modelMapper.map(savesBid, BidDto.class);
     }
 
     @Override
     public BidDto getBidById(long bidDtoId) {
-        Bid bid=this.bidRepo.findById(bidDtoId).orElseThrow(()-> new ResourceNotFoundException("Bid","Bid Id",bidDtoId));
-        return this.modelMapper.map(bid,BidDto.class);
+        Bid bid = this.bidRepo.findById(bidDtoId).orElseThrow(() -> new ResourceNotFoundException("Bid", "Bid Id", bidDtoId));
+        return this.modelMapper.map(bid, BidDto.class);
     }
 
     @Override
     public List<BidDto> getAllBid() {
-        List<Bid> bids=this.bidRepo.findAll();
-        List<BidDto> bidDtos= bids.stream().map(bid-> this.modelMapper.map(bid,BidDto.class)).collect(Collectors.toList());
+        List<Bid> bids = this.bidRepo.findAll();
+        List<BidDto> bidDtos = bids.stream().map(bid -> this.modelMapper.map(bid, BidDto.class)).collect(Collectors.toList());
         return bidDtos;
     }
 
     @Override
     public BidDto deleteBid(long bidDtoId) {
-        Bid bid=this.bidRepo.findById(bidDtoId).orElseThrow(()-> new ResourceNotFoundException("Bid","Bid id",bidDtoId));
+        Bid bid = this.bidRepo.findById(bidDtoId).orElseThrow(() -> new ResourceNotFoundException("Bid", "Bid id", bidDtoId));
         this.bidRepo.delete(bid);
-        return this.modelMapper.map(bid,BidDto.class);
+        return this.modelMapper.map(bid, BidDto.class);
     }
 
     @Override
     public BidDto updateBid(BidDto bidDto, long bidDtoId) {
-        Bid bid=this.bidRepo.findById(bidDtoId).orElseThrow(()-> new ResourceNotFoundException("Bid","Bid Id",bidDtoId));
+        Bid bid = this.bidRepo.findById(bidDtoId).orElseThrow(() -> new ResourceNotFoundException("Bid", "Bid Id", bidDtoId));
         bid.setBidDescription(bidDto.getBidDescription());
         bid.setBidPrice(bidDto.getBidPrice());
         this.bidRepo.save(bid);
-        return this.modelMapper.map(bid,BidDto.class);
+        return this.modelMapper.map(bid, BidDto.class);
     }
 
     @Override
     public BidDto createBidByUserAndPost(BidDto bidDto, long userId, long postId) {
-        Bid bid= this.modelMapper.map(bidDto,Bid.class);
-        User user=this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","User Id",userId));
-        Post post=this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","Post Id",postId));
+        Bid bid = this.modelMapper.map(bidDto, Bid.class);
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User Id", userId));
+        Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+
+        // all bids of this post;
+        List<Bid> bids=post.getBids();
+        for(Bid b:bids){
+
+            if(b.getUser().getId()==userId){
+                return null;
+            }
+        }
+        ;
         bid.setUser(user);
         bid.setPost(post);
         this.bidRepo.save(bid);
-        return this.modelMapper.map(bid,BidDto.class);
+        return this.modelMapper.map(bid, BidDto.class);
+
+    }
+
+    @Override
+    public List<BidDto> getAllBidOfPostById(long postId) {
+        Post post=this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","post id  ",postId));
+        List<Bid> bids=post.getBids();
+        List<BidDto> bidDtos=bids.stream().map(bid-> this.modelMapper.map(bid,BidDto.class)).collect(Collectors.toList());
+        return bidDtos;
     }
 }

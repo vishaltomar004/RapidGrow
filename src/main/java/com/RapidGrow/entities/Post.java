@@ -1,8 +1,6 @@
 package com.RapidGrow.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +23,8 @@ public class Post extends BaseEntity {
     @ManyToOne
     private User user;
 
-    @OneToMany
-    List<Bid> bids = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post", cascade = CascadeType.ALL)
+    List<Bid> bids;
 
 
 }
