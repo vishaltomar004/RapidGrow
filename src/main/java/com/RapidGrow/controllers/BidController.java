@@ -3,6 +3,7 @@ package com.RapidGrow.controllers;
 import com.RapidGrow.payloads.ApiResponse;
 import com.RapidGrow.payloads.BidDto;
 import com.RapidGrow.service.BidService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class BidController {
     private BidService bidService;
 
     @PostMapping("/create")
-    public ResponseEntity<BidDto> createBid(@RequestBody BidDto bidDto) {
+    public ResponseEntity<BidDto> createBid( @Valid  @RequestBody BidDto bidDto) {
         BidDto createdBid = this.bidService.createBid(bidDto);
         return new ResponseEntity<>(createdBid, HttpStatus.CREATED);
     }
@@ -41,7 +42,7 @@ public class BidController {
     }
 
     @PutMapping("update/{bid}")
-    public ResponseEntity<BidDto> updateBid(@RequestBody BidDto bidDto, @PathVariable long bid) {
+    public ResponseEntity<BidDto> updateBid( @Valid @RequestBody BidDto bidDto, @PathVariable long bid) {
         BidDto bidDto1 = this.bidService.updateBid(bidDto, bid);
         return new ResponseEntity<>(bidDto1, HttpStatus.OK);
     }

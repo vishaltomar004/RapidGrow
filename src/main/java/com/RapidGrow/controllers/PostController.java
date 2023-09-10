@@ -3,6 +3,7 @@ package com.RapidGrow.controllers;
 import com.RapidGrow.payloads.ApiResponse;
 import com.RapidGrow.payloads.PostDto;
 import com.RapidGrow.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class PostController {
 
     // creation of post
     @PostMapping("/create")
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> createPost( @Valid @RequestBody PostDto postDto) {
         PostDto postDto1 = this.postService.createPost(postDto);
         return new ResponseEntity<>(postDto1, HttpStatus.CREATED);
     }
@@ -46,7 +47,7 @@ public class PostController {
     // update post
 
     @PutMapping("/update/{postId}")
-    public ResponseEntity<ApiResponse> updatePost(@RequestBody PostDto postDto, @PathVariable Long postId) {
+    public ResponseEntity<ApiResponse> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable Long postId) {
         PostDto updatedpost = this.postService.updatePost(postDto, postId);
         return new ResponseEntity<ApiResponse>(new ApiResponse("successfully updated",true),HttpStatus.OK);
     }

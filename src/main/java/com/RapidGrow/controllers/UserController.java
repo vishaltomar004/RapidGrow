@@ -3,6 +3,7 @@ package com.RapidGrow.controllers;
 import com.RapidGrow.payloads.ApiResponse;
 import com.RapidGrow.payloads.UserDto;
 import com.RapidGrow.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
 
     // user creating API
     @PostMapping("/create")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser( @Valid @RequestBody UserDto userDto) {
         UserDto createdUser = this.userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -26,7 +27,7 @@ public class UserController {
     // delete
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable long userId) {
+    public ResponseEntity<ApiResponse> deleteUser(  @PathVariable long userId) {
         this.userService.deleteUser(userId);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Susseffully", true), HttpStatus.OK);
     }
@@ -46,7 +47,7 @@ public class UserController {
 
     //update User
     @PutMapping("/update/{userId}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable long userId) {
+    public ResponseEntity<UserDto> updateUser( @Valid @RequestBody UserDto userDto, @PathVariable long userId) {
         return ResponseEntity.ok(this.userService.updateUser(userDto, userId));
     }
 
