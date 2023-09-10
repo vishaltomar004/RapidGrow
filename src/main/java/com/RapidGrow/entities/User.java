@@ -24,6 +24,9 @@ public class User extends BaseEntity{
     private String password;
     @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
     private List<Post> posts= new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Bid> bids= new ArrayList<>();
     public Date getCreationDate() {
         return new Date();
     }

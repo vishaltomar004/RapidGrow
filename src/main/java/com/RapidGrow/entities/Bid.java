@@ -1,6 +1,7 @@
 package com.RapidGrow.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,9 +10,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Bid extends BaseEntity{
+public class Bid extends BaseEntity {
     private String bidDescription;
-    private long userId;
-    private long postId;
     private int bidPrice;
+
+
+    //
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Post post;
+
 }
